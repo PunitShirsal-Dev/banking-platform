@@ -1,0 +1,14 @@
+spring:
+  application.name: sample-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sample_db
+    username: app_user
+    password: ${DB_PASSWORD}
+  jpa.hibernate.ddl-auto: validate
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer.group-id: sample-group
+server.port: 8080
+management:
+  endpoints.web.base-path: /actuator
+  server.port: 8081
