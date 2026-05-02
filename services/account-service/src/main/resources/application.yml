@@ -1,8 +1,8 @@
 spring:
   application.name: sample-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/sample_db
-    username: app_user
+    url: jdbc:postgresql://localhost:5432/accounts
+    username: postgres
     password: ${DB_PASSWORD}
   jpa.hibernate.ddl-auto: validate
   kafka:
@@ -12,3 +12,6 @@ server.port: 8080
 management:
   endpoints.web.base-path: /actuator
   server.port: 8081
+outbox:
+  batch-size: 100
+  poll-interval-ms: 500

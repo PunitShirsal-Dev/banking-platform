@@ -1,9 +1,9 @@
-FROM eclipse-temurin:17-jre-alpine as builder
+FROM eclipse-temurin:17-jre-alpine AS builder
 WORKDIR /app
-COPY target/*.jar app.jar
+COPY target/account-service-*.jar app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
-FROM gcr.io/distroless/java17-debian11
+FROM gcr.io/distroless/java17-debian11:nonroot
 WORKDIR /app
 COPY --from=builder /app/dependencies/ ./
 COPY --from=builder /app/spring-boot-loader/ ./

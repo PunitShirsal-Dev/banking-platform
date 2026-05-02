@@ -1,0 +1,12 @@
+{
+  "namespace": "com.bank.accountservice.avro",
+  "type": "record",
+  "name": "AccountEvent",
+  "fields": [
+    {"name": "accountId", "type": "string"},
+    {"name": "customerId", "type": "string"},
+    {"name": "eventType", "type": ["null", "string"], "default": null},
+    {"name": "balanceAmount", "type": ["null", "string"], "default": null},
+    {"name": "currency", "type": ["null", "string"], "default": null}
+  ]
+}
