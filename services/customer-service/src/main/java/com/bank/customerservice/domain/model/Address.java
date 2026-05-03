@@ -1,0 +1,12 @@
+package com.bank.customerservice.domain.model;
+
+import lombok.Value;
+
+@Value
+public class Address {
+    String street;
+    String city;
+    String state;
+    String zipCode;
+    String country;
+}

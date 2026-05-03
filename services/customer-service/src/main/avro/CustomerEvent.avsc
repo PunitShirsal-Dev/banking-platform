@@ -1,0 +1,14 @@
+{
+  "namespace": "com.bank.customerservice.avro",
+  "type": "record",
+  "name": "CustomerEvent",
+  "fields": [
+    {"name": "customerId", "type": "string"},
+    {"name": "firstName", "type": "string"},
+    {"name": "lastName", "type": "string"},
+    {"name": "email", "type": "string"},
+    {"name": "status", "type": "string"},
+    {"name": "kycStatus", "type": "string"},
+    {"name": "timestamp", "type": "string"}
+  ]
+}
