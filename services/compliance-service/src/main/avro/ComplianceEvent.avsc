@@ -1,0 +1,19 @@
+{
+  "namespace": "com.bank.complianceservice.avro",
+  "type": "record",
+  "name": "ComplianceEvent",
+  "fields": [
+    {"name": "screeningId",    "type": "string"},
+    {"name": "customerId",     "type": "string"},
+    {"name": "firstName",      "type": "string"},
+    {"name": "lastName",       "type": "string"},
+    {"name": "screeningResult","type": "string"},
+    {"name": "caseStatus",     "type": "string"},
+    {
+      "name": "matchCount",
+      "type": ["null", "int"],
+      "default": null
+    },
+    {"name": "timestamp",      "type": "string"}
+  ]
+}

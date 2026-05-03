@@ -7,4 +7,13 @@ spring:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
     ssl:
       truststore-location: file:/etc/ssl/kafka/truststore.jks
-      truststore-password: ${TRUSTSTORE_PASS}
+  redis:
+    cluster:
+      nodes: ${REDIS_CLUSTER_NODES}
+    password: ${REDIS_PASSWORD}
+logging:
+  level:
+    root: INFO
+outbox:
+  batch-size: 100
+  poll-interval-ms: 500
