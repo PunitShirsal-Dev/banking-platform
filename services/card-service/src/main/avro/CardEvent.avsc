@@ -1,0 +1,16 @@
+{
+  "namespace": "com.bank.cardservice.avro",
+  "type": "record",
+  "name": "CardEvent",
+  "fields": [
+    {"name": "cardId", "type": "string"},
+    {"name": "customerId", "type": "string"},
+    {"name": "accountId", "type": "string"},
+    {"name": "cardType", "type": "string"},
+    {"name": "maskedCardNumber", "type": "string"},
+    {"name": "expiryDate", "type": "string"},
+    {"name": "status", "type": "string"},
+    {"name": "eventType", "type": "string"},
+    {"name": "timestamp", "type": "string"}
+  ]
+}

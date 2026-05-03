@@ -1,1 +1,11 @@
-# dev profile overrides
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cards_db
+  kafka:
+    bootstrap-servers: localhost:9092
+logging:
+  level:
+    com.bank: DEBUG
+outbox:
+  batch-size: 100
+  poll-interval-ms: 500

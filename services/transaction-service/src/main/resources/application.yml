@@ -2,7 +2,7 @@ spring:
   application:
     name: transaction-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/transactions
+    url: jdbc:postgresql://localhost:5432/transactions_db
     username: sa
     password:
   flyway:

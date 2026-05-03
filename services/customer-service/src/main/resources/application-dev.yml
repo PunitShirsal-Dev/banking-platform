@@ -1,16 +1,11 @@
 spring:
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/customers_db
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
-    ssl:
-      truststore-location: file:/etc/ssl/kafka/truststore.jks
-  redis:
-    cluster:
-      nodes: ${REDIS_CLUSTER_NODES}
-    password: ${REDIS_PASSWORD}
+    bootstrap-servers: localhost:9092
 logging:
   level:
-    root: INFO
+    com.bank: DEBUG
+outbox:
+  batch-size: 100
+  poll-interval-ms: 500
