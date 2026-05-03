@@ -1,0 +1,17 @@
+{
+  "namespace": "com.bank.loanservice.avro",
+  "type": "record",
+  "name": "LoanEvent",
+  "fields": [
+    {"name": "loanId", "type": "string"},
+    {"name": "customerId", "type": "string"},
+    {"name": "accountId", "type": "string"},
+    {"name": "type", "type": "string"},
+    {"name": "principalAmount", "type": "string"},
+    {"name": "currency", "type": "string"},
+    {"name": "status", "type": "string"},
+    {"name": "termMonths", "type": "int"},
+    {"name": "eventType", "type": "string"},
+    {"name": "timestamp", "type": "string"}
+  ]
+}

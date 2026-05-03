@@ -1,14 +1,25 @@
 spring:
-  application.name: sample-service
+  application:
+    name: loan-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/sample_db
-    username: app_user
-    password: ${DB_PASSWORD}
-  jpa.hibernate.ddl-auto: validate
+    url: jdbc:postgresql://localhost:5432/loans_db
+    username: sa
+    password:
+  flyway:
+    enabled: true
   kafka:
     bootstrap-servers: localhost:9092
-    consumer.group-id: sample-group
+  redis:
+    host: localhost
+    port: 6379
 server.port: 8080
+account-service:
+  url: http://account-service:8080
+outbox:
+  batch-size: 100
+  poll-interval-ms: 500
 management:
-  endpoints.web.base-path: /actuator
-  server.port: 8081
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
