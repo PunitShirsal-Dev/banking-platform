@@ -1,7 +1,7 @@
 spring:
   application.name: sample-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/accounts
+    url: jdbc:postgresql://localhost:5432/accounts_db
     username: postgres
     password: ${DB_PASSWORD}
   jpa.hibernate.ddl-auto: validate

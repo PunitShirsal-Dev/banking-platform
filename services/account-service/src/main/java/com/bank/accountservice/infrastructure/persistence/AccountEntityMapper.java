@@ -3,8 +3,6 @@ package com.bank.accountservice.infrastructure.persistence;
 import com.bank.accountservice.domain.model.*;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
-
 @Component
 public class AccountEntityMapper {
 
@@ -35,7 +33,7 @@ public class AccountEntityMapper {
 
         var logs = entity.getTransactionLogs().stream()
                 .map(this::toDomainLog)
-                .collect(Collectors.toList());
+                .toList();
 
         Account.GenericAccountArg accountArg = new Account.GenericAccountArg(
                 entity.getCustomerId(), entity.getOpenedAt(), entity.getClosedAt());

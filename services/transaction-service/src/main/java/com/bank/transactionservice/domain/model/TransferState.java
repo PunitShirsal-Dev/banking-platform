@@ -1,0 +1,13 @@
+package com.bank.transactionservice.domain.model;
+
+public enum TransferState {
+    INITIATED,
+    SOURCE_DEBIT_PENDING,
+    SOURCE_DEBIT_APPROVED,
+    TARGET_CREDIT_PENDING,
+    TARGET_CREDIT_APPROVED,
+    COMPLETED,
+    COMPENSATION_SOURCE_CREDIT_PENDING,
+    COMPENSATION_SOURCE_CREDIT_APPROVED,
+    FAILED
+}

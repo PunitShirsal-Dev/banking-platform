@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.5</version>
+        <version>3.5.14</version>
         <relativePath/>
     </parent>
 
@@ -19,10 +19,10 @@
     <description>Banking account microservice</description>
 
     <properties>
-        <java.version>17</java.version>
-        <spring-cloud.version>2023.0.2</spring-cloud.version>
-        <avro.version>1.11.3</avro.version>
-        <confluent.version>7.6.1</confluent.version>   <!-- matches Kafka 3.6.x -->
+        <java.version>21</java.version>
+        <spring-cloud.version>2025.0.2</spring-cloud.version>
+        <confluent.version>7.8.1</confluent.version>
+        <postgresql.version>42.7.5</postgresql.version>
     </properties>
 
     <!-- Confluent repository (required for kafka-avro-serializer) -->
@@ -41,7 +41,7 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Spring Cloud BOM to manage cloud-related versions -->
+            <!-- Import Spring Cloud BOM to manage Resilience, etc. -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -53,7 +53,7 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- Spring Boot Starters -->
+        <!-- Spring Boot Starters (all versions managed by parent 3.5.14) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -94,12 +94,12 @@
         <dependency>
             <groupId>org.apache.avro</groupId>
             <artifactId>avro</artifactId>
-            <version>${avro.version}</version>
+            <version>1.12.1</version>
         </dependency>
         <dependency>
             <groupId>io.confluent</groupId>
             <artifactId>kafka-avro-serializer</artifactId>
-            <version>${confluent.version}</version>   <!-- now managed via property -->
+            <version>${confluent.version}</version>
         </dependency>
 
         <!-- Resilience & Observability -->
@@ -122,10 +122,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
         </dependency>
 
         <!-- Test -->
@@ -157,14 +153,12 @@
         <dependency>
             <groupId>com.github.dasniko</groupId>
             <artifactId>testcontainers-keycloak</artifactId>
-            <version>3.1.0</version>
+            <version>3.3.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
-            <version>3.0.2</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 
@@ -185,7 +179,7 @@
             <plugin>
                 <groupId>org.apache.avro</groupId>
                 <artifactId>avro-maven-plugin</artifactId>
-                <version>${avro.version}</version>
+                <version>1.12.1</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -193,7 +187,7 @@
                             <goal>schema</goal>
                         </goals>
                         <configuration>
-                            <sourceDirectory>${project.basedir}/src/main/avro/</sourceDirectory>
+                            <sourceDirectory>${project.basedir}/src/main/avro</sourceDirectory>
                             <outputDirectory>${project.build.directory}/generated-sources/avro/</outputDirectory>
                         </configuration>
                     </execution>

@@ -1,0 +1,14 @@
+{
+  "namespace": "com.bank.transactionservice.avro",
+  "type": "record",
+  "name": "TransferEvent",
+  "fields": [
+    {"name": "transactionId", "type": "string"},
+    {"name": "sourceAccountId", "type": "string"},
+    {"name": "targetAccountId", "type": "string"},
+    {"name": "amount", "type": "string"},
+    {"name": "currency", "type": "string"},
+    {"name": "state", "type": "string"},
+    {"name": "description", "type": ["null", "string"], "default": null}
+  ]
+}
