@@ -38,24 +38,33 @@ public class OutboxRelay {
     @Transactional
     public void processOutbox() {
         List<OutboxRow> rows = fetchUnpublishedRows();
+
         if (rows.isEmpty()) {
-            log.debug("No outbox rows to process");
+            log.debug("No compliance outbox rows to process");
             return;
         }
-        log.info("Processing {} outbox messages", rows.size());
+
+        log.info("Processing {} compliance outbox messages", rows.size());
+
         for (OutboxRow row : rows) {
             try {
                 sendToKafka(row);
                 markAsPublished(row.id());
             } catch (Exception e) {
                 Thread.currentThread().interrupt();
-                log.error("Failed to publish outbox row {}: {}", row.id(), e.getMessage(), e);
+                log.error("Failed to publish compliance outbox row {}: {}", row.id(), e.getMessage(), e);
             }
         }
     }
 
     private List<OutboxRow> fetchUnpublishedRows() {
-        String sql = "SELECT id, aggregate_id, event_type, payload FROM outbox WHERE published = false ORDER BY created_at ASC LIMIT ? FOR UPDATE SKIP LOCKED";
+        String sql = """
+            SELECT id, aggregate_id, event_type, payload
+            FROM outbox
+            WHERE published = false
+            ORDER BY created_at ASC
+            LIMIT ? FOR UPDATE SKIP LOCKED
+            """;
         return jdbc.query(sql,
                 (ResultSet rs, int rowNum) -> new OutboxRow(
                         UUID.fromString(rs.getString("id")),
@@ -71,6 +80,7 @@ public class OutboxRelay {
         CompletableFuture<SendResult<String, String>> future =
                 kafkaTemplate.send(topic, row.aggregateId(), row.payload());
         future.get(5, TimeUnit.SECONDS);
+        log.debug("Published compliance event {} to topic {}", row.eventType(), topic);
     }
 
     private void markAsPublished(UUID id) {
@@ -79,11 +89,9 @@ public class OutboxRelay {
 
     private String determineTopic(String eventType) {
         return switch (eventType) {
-            case "CardIssued"    -> "card.issued";
-            case "CardActivated" -> "card.activated";
-            case "CardBlocked"   -> "card.blocked";
-            case "CardClosed"    -> "card.closed";
-            default              -> "card.events";
+            case "ScreeningCompleted"  -> "compliance.screening.completed";
+            case "ScreeningEscalated"  -> "compliance.screening.escalated";
+            default                    -> "compliance.events";
         };
     }
 

@@ -1,0 +1,17 @@
+{
+  "namespace": "com.bank.paymentgateway.avro",
+  "type": "record",
+  "name": "PaymentEvent",
+  "fields": [
+    {"name": "paymentId", "type": "string"},
+    {"name": "sourceAccountId", "type": "string"},
+    {"name": "beneficiaryName", "type": "string"},
+    {"name": "amount", "type": "string"},
+    {"name": "currency", "type": "string"},
+    {"name": "paymentType", "type": "string"},
+    {"name": "status", "type": "string"},
+    {"name": "reference", "type": ["null", "string"], "default": null},
+    {"name": "eventType", "type": "string"},
+    {"name": "timestamp", "type": "string"}
+  ]
+}

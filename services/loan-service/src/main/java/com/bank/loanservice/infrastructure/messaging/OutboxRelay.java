@@ -38,36 +38,49 @@ public class OutboxRelay {
     @Transactional
     public void processOutbox() {
         List<OutboxRow> rows = fetchUnpublishedRows();
+
         if (rows.isEmpty()) {
-            log.debug("No outbox rows to process");
+            log.debug("No loan outbox rows to process");
             return;
         }
-        log.info("Processing {} outbox messages", rows.size());
+
+        log.info("Processing {} loan outbox messages", rows.size());
+
         for (OutboxRow row : rows) {
             try {
                 sendToKafka(row);
                 markAsPublished(row.id());
             } catch (Exception e) {
                 Thread.currentThread().interrupt();
-                log.error("Failed to publish outbox row {}: {}", row.id(), e.getMessage(), e);
+                log.error("Failed to publish loan outbox row {}: {}", row.id(), e.getMessage(), e);
             }
         }
     }
 
     private List<OutboxRow> fetchUnpublishedRows() {
-        String sql = "SELECT id, aggregate_id, event_type, payload FROM outbox WHERE published = false ORDER BY created_at ASC LIMIT ? FOR UPDATE SKIP LOCKED";
-        return jdbc.query(sql, (ResultSet rs, int rowNum) -> new OutboxRow(
-                UUID.fromString(rs.getString("id")),
-                rs.getString("aggregate_id"),
-                rs.getString("event_type"),
-                rs.getString("payload")
-        ), batchSize);
+        String sql = """
+            SELECT id, aggregate_id, event_type, payload
+            FROM outbox
+            WHERE published = false
+            ORDER BY created_at ASC
+            LIMIT ? FOR UPDATE SKIP LOCKED
+            """;
+        return jdbc.query(sql,
+                (ResultSet rs, int rowNum) -> new OutboxRow(
+                        UUID.fromString(rs.getString("id")),
+                        rs.getString("aggregate_id"),
+                        rs.getString("event_type"),
+                        rs.getString("payload")
+                ),
+                batchSize);
     }
 
     private void sendToKafka(OutboxRow row) throws ExecutionException, InterruptedException, TimeoutException {
         String topic = determineTopic(row.eventType());
-        CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send(topic, row.aggregateId(), row.payload());
+        CompletableFuture<SendResult<String, String>> future =
+                kafkaTemplate.send(topic, row.aggregateId(), row.payload());
         future.get(5, TimeUnit.SECONDS);
+        log.debug("Published loan event {} to topic {}", row.eventType(), topic);
     }
 
     private void markAsPublished(UUID id) {
@@ -76,11 +89,10 @@ public class OutboxRelay {
 
     private String determineTopic(String eventType) {
         return switch (eventType) {
-            case "CustomerRegistered" -> "customer.registered";
-            case "CustomerActivated"  -> "customer.activated";
-            case "CustomerBlocked"    -> "customer.blocked";
-            case "KycVerified"        -> "customer.kyc.verified";
-            default                   -> "customer.events";
+            case "LoanApplied"   -> "loan.applied";
+            case "LoanApproved"  -> "loan.approved";
+            case "LoanDisbursed" -> "loan.disbursed";
+            default              -> "loan.events";
         };
     }
 
