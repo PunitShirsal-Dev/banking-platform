@@ -15,7 +15,7 @@
     <groupId>com.bank</groupId>
     <artifactId>account-service</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>Account Service</name>
+    <name>account service</name>
     <description>Banking account microservice</description>
 
     <properties>
