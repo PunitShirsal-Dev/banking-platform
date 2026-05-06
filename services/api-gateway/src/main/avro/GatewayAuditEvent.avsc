@@ -1,0 +1,13 @@
+{
+  "namespace": "com.bank.gateway.avro",
+  "type": "record",
+  "name": "GatewayAuditEvent",
+  "fields": [
+    {"name": "eventId", "type": "string"},
+    {"name": "requestPath", "type": "string"},
+    {"name": "method", "type": "string"},
+    {"name": "principalName", "type": "string"},
+    {"name": "idempotencyKey", "type": ["null","string"], "default": null},
+    {"name": "timestamp", "type": "string"}
+  ]
+}

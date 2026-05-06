@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    ssl:
+      truststore-location: file:/etc/ssl/kafka/truststore.jks
+  redis:
+    cluster:
+      nodes: ${REDIS_CLUSTER_NODES}
+    password: ${REDIS_PASSWORD}
+logging:
+  level:
+    root: INFO

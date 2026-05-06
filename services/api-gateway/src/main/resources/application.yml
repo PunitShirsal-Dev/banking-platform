@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${AUTH_ISSUER_URI}   # e.g., AWS Cognito / Keycloak
+  datasource:
+    url: jdbc:postgresql://localhost:5432/gateway_audit
+    username: sa
+    password:
+  flyway:
+    enabled: true
+  kafka:
+    bootstrap-servers: localhost:9092
+  redis:
+    host: localhost
+    port: 6379
+
+server:
+  port: 8080
+
+outbox:
+  batch-size: 100
+  poll-interval-ms: 500
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
